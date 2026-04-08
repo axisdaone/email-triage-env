@@ -1,0 +1,26 @@
+name: email-triage-env
+license: "mit"
+homepage: "https://huggingface.co/spaces/your-username/email-triage-env"
+version: "1.0.0"
+description: "An environment where an AI agent triages a realistic inbox of emails."
+author: "your-name"
+tags: ["email", "triage", "nlp", "productivity"]
+
+tasks:
+  - id: task1
+    name: "Label urgency"
+    difficulty: easy
+    description: "Classify each email as urgent, not_urgent, or spam."
+  - id: task2
+    name: "Label and route"
+    difficulty: medium
+    description: "Classify AND route each email to the correct folder."
+  - id: task3
+    name: "Triage and reply"
+    difficulty: hard
+    description: "Classify, route, and draft a reply for urgent emails."
+
+endpoints:
+  reset: POST /reset
+  step: POST /step
+  state: GET /state
