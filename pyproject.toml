@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [project.scripts]
-server = "uvicorn main:app --host 0.0.0.0 --port 7860"
+server = "main:app"
 
 [tool.openenv]
 name = "email-triage-env"
