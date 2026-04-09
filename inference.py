@@ -19,10 +19,11 @@ SYSTEM_PROMPT = """You are an email triage agent. For each email you receive, re
 Respond ONLY with valid JSON, no other text."""
 
 def run_task(task_id: str):
-    print(f"\n--- Running {task_id} ---")
     obs = requests.post(f"{ENV_URL}/reset", params={"task_id": task_id}).json()
     total_reward = 0.0
     steps = 0
+
+    print(f"[START] task={task_id}", flush=True)
 
     while True:
         email = obs["current_email"]
@@ -51,14 +52,15 @@ Triage this email."""
         result = requests.post(f"{ENV_URL}/step", json=parsed).json()
         total_reward += result["reward"]["value"]
         steps += 1
-        print(f"  Step {steps}: label={parsed.get('label')} | reward={result['reward']['value']:.2f}")
+
+        print(f"[STEP] step={steps} reward={result['reward']['value']:.2f}", flush=True)
 
         if result["done"]:
             break
         obs = result["observation"]
 
     avg = total_reward / steps
-    print(f"  Final: total={total_reward:.2f}, avg={avg:.2f}")
+    print(f"[END] task={task_id} score={avg:.3f} steps={steps}", flush=True)
     return avg
 
 if __name__ == "__main__":
