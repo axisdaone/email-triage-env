@@ -67,6 +67,6 @@ if __name__ == "__main__":
     scores = {}
     for task in ["task1", "task2", "task3"]:
         scores[task] = run_task(task)
-    print("\n=== Baseline Scores ===")
+    print("\n=== Baseline Scores ===", flush=True)
     for task, score in scores.items():
-        print(f"  {task}: {score:.3f}")
+        print(f"  {task}: {score:.3f}", flush=True)

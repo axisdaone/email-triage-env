@@ -55,36 +55,32 @@ TASKS = {
 def grade_action(task_id: str, email: dict, action) -> float:
     score = 0.0
 
-    # Task 1: just label (worth 1.0 full score)
     if task_id == "task1":
         if action.label == email["correct_label"]:
-            score = 1.0
-        elif action.label in ["urgent", "not_urgent", "spam"]:
-            score = 0.1  # tried but wrong
+            score = 0.95
+        else:
+            score = 0.1
         return score
 
-    # Task 2: label (0.5) + folder (0.5)
     if task_id == "task2":
         if action.label == email["correct_label"]:
-            score += 0.5
+            score += 0.45
         if action.folder == email["correct_folder"]:
-            score += 0.5
-        return score
+            score += 0.45
+        return max(0.01, min(0.99, score))
 
-    # Task 3: label (0.3) + folder (0.3) + reply draft (0.4)
     if task_id == "task3":
         if action.label == email["correct_label"]:
-            score += 0.3
+            score += 0.28
         if action.folder == email["correct_folder"]:
-            score += 0.3
-        # Reply only matters for urgent emails
+            score += 0.28
         if email["correct_label"] == "urgent":
             if action.reply_draft and len(action.reply_draft) > 20:
-                score += 0.4  # gave a real reply
+                score += 0.38
             elif action.reply_draft:
-                score += 0.1  # tried but too short
+                score += 0.1
         else:
-            score += 0.4  # non-urgent: no reply needed, give full points
-        return score
+            score += 0.38
+        return max(0.01, min(0.99, score))
 
-    return 0.0
+    return 0.01
